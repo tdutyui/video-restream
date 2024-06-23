@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: video-restream
+
+server:
+  port: 9091

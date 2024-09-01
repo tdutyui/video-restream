@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "fix" ]
 
 jobs:
   build:
@@ -24,12 +24,12 @@ jobs:
 
       - name: Copy Docker image to remote server
         run: |
-          rsync -avz -e "ssh -o StrictHostKeyChecking=no" video-restream.tar ${{ secrets.USER }}@${{ secrets.SERVER }}:/home/${{ secrets.USER }}/video-restream.tar
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no" video-restream.tar ${{ secrets.USER }}@${{ secrets.SERVER }}:/home/${{ secrets.USER }}/tars
 
       - name: Deploy Docker image on remote server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.SERVER }}
-            docker load -i /home/${{ secrets.USER }}/video-restream.tar
+            docker load -i /home/${{ secrets.USER }}/tars/video-restream.tar
             docker stop video-restream || true
             docker rm video-restream || true
             docker run -d --name video-restream -p 9091:9091 video-restream
